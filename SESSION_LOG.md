@@ -25,3 +25,14 @@ rules, about. Local app adds "Check with Python" (POST /api/simulate2d|3d replay
   a different (e.g. 18-neighbour) shape.
 
 Tests: `test_organic_patterns.py` 25 passed; `tests/test_web.py` 16 passed (incl. node engine test).
+
+## 2026-11-11 (later) - George-approved fixes for the two open decisions
+
+- **Mycelium 2D** (`11c9ef5`): noise is now added only to live cells, so empty cells stay 0, births happen and the
+  pattern grows from a seed (regression test). Note: live cells are 1 and the existing clip to [0, 1] is kept, so the
+  noise no longer changes any value; the random draws are still made, keeping the numpy stream unchanged.
+- **3D 'diamond' kernel** (`a83acb1`): now the octahedral L1 ball of radius 2 (5x5x5, 24 neighbours), distinct from
+  'sphere' (6 face neighbours); 3D mycelium now grows instead of freezing. JS 3D engine takes any odd cubic kernel.
+- Both fixes in desktop and web; fixture regenerated (now 19 runs, incl. a grid smaller than the 5x5x5 kernel).
+- Checks re-run: `test_organic_patterns.py` 27 passed, `tests/test_web.py` 16 passed, node 23 checks; screenshots.py
+  static + local app all ok, phone overflow 0; Check with Python "Identical" for 2D mycelium, 3D mycelium and crystal.
