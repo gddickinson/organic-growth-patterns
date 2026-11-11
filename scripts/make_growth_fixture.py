@@ -47,6 +47,8 @@ def cases_3d():
             cases.append({"width": 13, "height": 11, "depth": 9, "rng_seed": rng_seed,
                           "actions": [seed, ["grow", pattern, 5]]})
             rng_seed += 1
+    cases.append({"width": 4, "height": 3, "depth": 5, "rng_seed": 7,     # grid smaller than the 5x5x5 diamond
+                  "actions": [["seed_random", 0.3], ["grow", "mycelium", 3]]})
     cases.append({"width": 30, "height": 30, "depth": 30, "rng_seed": 0,   # the 3D desktop demo
                   "actions": [["seed_center", 3], ["grow", "crystal", 10]]})
     return cases

@@ -31,15 +31,25 @@ class TestPatternRegistries:
     def test_3d_registry_has_expected_keys(self):
         assert set(PATTERN_REGISTRY_3D.keys()) == {'coral', 'mycelium', 'crystal'}
 
-    def test_3d_kernels_are_3x3x3(self):
+    def test_3d_kernels_are_odd_cubes(self):
         for name, pat in PATTERN_REGISTRY_3D.items():
-            assert pat['kernel'].shape == (3, 3, 3), f"{name} kernel wrong shape"
+            n = pat['kernel'].shape[0]
+            assert pat['kernel'].shape == (n, n, n) and n % 2 == 1, f"{name} kernel wrong shape"
 
     def test_create_3d_kernel_shapes(self):
         for shape in ('sphere', 'diamond', 'cube'):
             k = create_3d_kernel(shape)
-            assert k.shape == (3, 3, 3)
-            assert k[1, 1, 1] == 0.0  # center always zero
+            c = k.shape[0] // 2
+            assert k[c, c, c] == 0.0  # center always zero
+
+    def test_diamond_is_an_l1_ball_distinct_from_sphere(self):
+        """Regression: 'diamond' was built exactly like 'sphere' (the 6 face neighbours)."""
+        d, s = create_3d_kernel('diamond'), create_3d_kernel('sphere')
+        assert d.shape != s.shape or not np.array_equal(d > 0, s > 0)
+        c = d.shape[0] // 2
+        z, y, x = np.indices(d.shape) - c
+        l1 = abs(x) + abs(y) + abs(z)
+        assert np.array_equal(d > 0, (l1 >= 1) & (l1 <= c)) and c >= 2
 
 
 # ---------- OrganicPatternGenerator (2D) tests ----------

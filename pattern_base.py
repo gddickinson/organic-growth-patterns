@@ -59,13 +59,14 @@ PATTERN_REGISTRY_2D: Dict[str, Dict[str, Any]] = {
 
 
 def create_3d_kernel(shape: str = 'sphere') -> np.ndarray:
-    """Create a 3x3x3 kernel for 3D neighborhood calculations.
+    """Create a 3D kernel for neighborhood calculations.
 
     Args:
-        shape: Kernel geometry - 'sphere', 'diamond', or 'cube'.
+        shape: Kernel geometry - 'sphere' (3x3x3: the 6 face neighbours), 'diamond' (5x5x5: the octahedral ball of
+            L1 distance <= 2, 24 neighbours), or 'cube' (3x3x3: all 26 neighbours).
 
     Returns:
-        Normalized 3D numpy array.
+        Normalized 3D numpy array (the centre cell is always 0).
     """
     kernel = np.zeros((3, 3, 3))
 
@@ -74,9 +75,9 @@ def create_3d_kernel(shape: str = 'sphere') -> np.ndarray:
         kernel[1, 1, 2] = kernel[1, 2, 1] = kernel[2, 1, 1] = 1
         kernel[1, 1, 1] = 0
     elif shape == 'diamond':
-        kernel[1, 1, 0] = kernel[1, 0, 1] = kernel[0, 1, 1] = 1
-        kernel[1, 1, 2] = kernel[1, 2, 1] = kernel[2, 1, 1] = 1
-        kernel[1, 1, 1] = 0
+        z, y, x = np.indices((5, 5, 5)) - 2
+        l1 = np.abs(x) + np.abs(y) + np.abs(z)
+        kernel = ((l1 >= 1) & (l1 <= 2)).astype(float)
     elif shape == 'cube':
         kernel.fill(1)
         kernel[1, 1, 1] = 0

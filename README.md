@@ -10,7 +10,7 @@ A Python-based cellular automaton system that generates and visualizes organic g
 - **Mycelium Growth**: Network-like patterns with copper tones
 
 ### 3D Growth (`organic_patterns_3d.py`)
-- **Coral**, **Mycelium** and **Crystal** rules on a volumetric grid (6-neighbour or 26-neighbour kernels)
+- **Coral**, **Mycelium** and **Crystal** rules on a volumetric grid (6-neighbour, 24-neighbour octahedral or 26-neighbour kernels)
 - Random and centre-sphere seeding, 3D scatter plots and GIF time-lapse export
 
 ### Seeding Methods

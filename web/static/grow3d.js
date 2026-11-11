@@ -21,7 +21,8 @@ route('grow3d', async (args, q) => {
   app().innerHTML = `
   <p class="kicker">3D lab · OrganicPattern3D</p>
   <h1>Grow a 3D pattern</h1>
-  <p class="lead">The volumetric version: every cell counts its 6 face neighbours (coral, mycelium) or all 26 (crystal),
+  <p class="lead">The volumetric version: every cell counts its 6 face neighbours (coral), the 24 cells within
+  L1 distance 2 (mycelium's octahedral 'diamond') or all 26 around it (crystal),
   wrapping at the faces, then applies the pattern's survival and birth ranges.</p>
   <div class="lab">
     <div class="controls panel">

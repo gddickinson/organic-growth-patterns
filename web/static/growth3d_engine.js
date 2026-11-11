@@ -4,15 +4,15 @@
 import { RandomState } from './mt19937.js';
 
 export function convolveWrap3d(grid, d, h, w, kernel) {
-  const taps = [];
-  for (let a = 0; a < 3; a++) for (let b = 0; b < 3; b++) for (let c = 0; c < 3; c++) {
-    if (kernel[2 - a][2 - b][2 - c] > 0) taps.push([a - 1, b - 1, c - 1]);
+  const n = kernel.length, o = n >> 1, taps = [];   // odd cubic kernel (3x3x3, or 5x5x5 for 'diamond')
+  for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) for (let c = 0; c < n; c++) {
+    if (kernel[n - 1 - a][n - 1 - b][n - 1 - c] > 0) taps.push([a - o, b - o, c - o]);
   }
   const out = new Float64Array(d * h * w), hw = h * w;
   for (let z = 0; z < d; z++) for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
     let t = 0;
     for (const [dz, dy, dx] of taps) {
-      const zz = (z + dz + d) % d, yy = (y + dy + h) % h, xx = (x + dx + w) % w;
+      const zz = (((z + dz) % d) + d) % d, yy = (((y + dy) % h) + h) % h, xx = (((x + dx) % w) + w) % w;
       t += grid[zz * hw + yy * w + xx];
     }
     out[z * hw + y * w + x] = t;

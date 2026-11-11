@@ -40,8 +40,9 @@ route('rules', async () => {
       <td class="mono">${p.survive_range.join('–')}</td><td class="mono">${p.birth_range.join('–')}</td>
       <td class="small">${esc(p.colors.join(', '))}<div class="ramp" style="background:${rampCSS(cmaps['3d'][p.key])}"></div></td></tr>`)}
     </tbody></table></div>
-  <p class="small mute"><code>create_3d_kernel()</code> builds 'sphere' and 'diamond' as the same 6 face neighbours and
-  'cube' as all 26; the weights are normalised, and <code>grow()</code> counts each neighbour once.</p>
+  <p class="small mute"><code>create_3d_kernel()</code> builds 'sphere' as the 6 face neighbours, 'diamond' as the
+  octahedron of L1 distance &le; 2 (5×5×5, 24 neighbours) and 'cube' as all 26; the weights are normalised, and
+  <code>grow()</code> counts each neighbour once.</p>
   <h2>Environment (2D)</h2>
   <div class="two">
     <div class="panel"><h3>Light</h3><p>A radial gradient from the centre: <span class="eq">1 − 0.5·r² / (w·h/4)</span>, clipped to
