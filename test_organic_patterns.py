@@ -162,6 +162,14 @@ class TestOrganicPattern3D:
             gen.seed_center(radius=3)
             assert gen.grow(pattern, generations=3) > 0, pattern
 
+    def test_scatter_coords_follow_axis_names(self):
+        """Regression: the (depth, height, width) grid was unpacked as x, y, z, so plots put the width index on the
+        Z axis and coloured points by width instead of depth."""
+        gen = OrganicPattern3D(width=6, height=5, depth=4)
+        gen.grid[1, 2, 3] = 1  # z=1, y=2, x=3
+        x, y, z = gen.active_coords()
+        assert (list(x), list(y), list(z)) == ([3], [2], [1])
+
     def test_grow_unknown_pattern_raises(self):
         gen = OrganicPattern3D(10, 10, 10)
         gen.seed_random()

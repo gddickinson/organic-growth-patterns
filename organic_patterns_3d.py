@@ -112,6 +112,17 @@ class OrganicPattern3D(OrganicPatternBase):
 
         return int(np.sum(self.grid > 0))
 
+    def active_coords(self, threshold: float = 0.5, grid: np.ndarray = None):
+        """Return (x, y, z) index arrays of cells above threshold; the grid is stored as (depth, height, width).
+
+        Args:
+            threshold: Minimum cell value to include.
+            grid: Grid to read (defaults to the current grid; pass a history frame for animations).
+        """
+        grid = self.grid if grid is None else grid
+        z, y, x = np.where(grid > threshold)
+        return x, y, z
+
     def visualize_3d(self, pattern_type: str = 'coral', threshold: float = 0.5,
                      save_path: str = None) -> None:
         """Create a 3D scatter visualization of the current state.
@@ -124,7 +135,7 @@ class OrganicPattern3D(OrganicPatternBase):
         fig = plt.figure(figsize=(12, 12))
         ax = fig.add_subplot(111, projection='3d')
 
-        x, y, z = np.where(self.grid > threshold)
+        x, y, z = self.active_coords(threshold)
 
         colors = self.patterns[pattern_type]['colors']
         custom_cmap = LinearSegmentedColormap.from_list('custom', colors)
@@ -161,7 +172,7 @@ class OrganicPattern3D(OrganicPatternBase):
             plt.clf()
             ax = fig.add_subplot(111, projection='3d')
 
-            x, y, z = np.where(self.history[frame] > threshold)
+            x, y, z = self.active_coords(threshold, self.history[frame])
 
             if len(x) > 0:
                 c = z / max(self.depth, 1)
