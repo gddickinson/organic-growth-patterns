@@ -102,6 +102,37 @@ generator.add_environment('light')
 generator.add_environment('moisture')
 ```
 
+## Web interface and static site
+
+The generators also run in the browser: **https://gddickinson.github.io/organic-growth-patterns/** (published from
+`main` by `.github/workflows/pages.yml`). The static site *is* the working app: `OrganicPatternGenerator` and
+`OrganicPattern3D` are ported to small JavaScript engines (with numpy's MT19937 random numbers and `np.random.choice`), the
+rules and colour maps are read from `pattern_base.py` and matplotlib, and node tests require the engines to reproduce runs
+of the Python generators exactly (cell for cell, every count).
+
+- **2D lab** (`#/grow`): coral, lichen and mycelium; random / centre / line seeding; step or play; light and moisture
+  gradients; population curve; PNG export; the Python code that repeats your run.
+- **3D lab** (`#/grow3d`): coral, mycelium and crystal as a rotatable scatter plot coloured by depth; scrub through the
+  history like `create_timelapse()`; PNG export.
+- **Rules** (`#/rules`): the kernels, survival/birth ranges, colour maps and environment gradients.
+- In the local app, **Check with Python** replays your exact run through the real Python classes and compares.
+
+Links can open a run already grown, e.g. `#/grow?pattern=lichen&seed=center&rng=42&gens=40`.
+
+```bash
+pip install -r requirements-web.txt
+python run_web.py                          # http://127.0.0.1:8172
+python -m pytest -q tests/test_web.py      # API, static build, fixture currency, node engine test
+python scripts/build_static.py             # writes site/ (what GitHub Pages serves)
+python scripts/make_growth_fixture.py      # regenerate tests/fixtures/growth_fixture.json after changing the rules
+```
+
+| Home | 2D lab |
+|---|---|
+| ![Home page](docs/img/home.png) | ![2D lab: lichen grown from a centre seed](docs/img/grow_lichen.png) |
+| **3D lab** | **Rules** |
+| ![3D lab: crystal from a random seed](docs/img/grow3d_crystal.png) | ![Rules page](docs/img/rules.png) |
+
 ## Technical Details
 
 ### Growth Rules

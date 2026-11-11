@@ -23,7 +23,7 @@ Two scripts: `organic_patterns.py` (2D cellular automaton) and `organic_patterns
 ## Long-term Vision
 - [ ] Implement GPU-accelerated growth simulation using CuPy or PyOpenCL for large grids
 - [ ] Add 3D visualization with proper rendering (marching cubes + VTK or pyvista) for the 3D version
-- [ ] Build a web-based interactive simulator (Streamlit or WebGL)
+- [x] Build a web-based interactive simulator (FastAPI app + static GitHub Pages site with a JS engine; `web/`)
 - [ ] Add agent-based modeling as an alternative to cellular automata for more realistic growth
 - [ ] Support importing real microscopy images as initial seeds for hybrid simulation
 - [ ] Publish as a pip package for use in generative art and biology education
