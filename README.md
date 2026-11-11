@@ -9,6 +9,10 @@ A Python-based cellular automaton system that generates and visualizes organic g
 - **Lichen Growth**: Spreading patterns with yellow-green visualization
 - **Mycelium Growth**: Network-like patterns with copper tones
 
+### 3D Growth (`organic_patterns_3d.py`)
+- **Coral**, **Mycelium** and **Crystal** rules on a volumetric grid (6-neighbour or 26-neighbour kernels)
+- Random and centre-sphere seeding, 3D scatter plots and GIF time-lapse export
+
 ### Seeding Methods
 - Random distribution
 - Center-point growth
@@ -34,13 +38,13 @@ Python 3.7 or higher
 
 ### Required Libraries
 ```bash
-pip install numpy matplotlib scipy opencv-python
+pip install -r requirements.txt   # numpy, matplotlib, scipy
 ```
 
 ### Setup
 ```bash
-git clone https://github.com/yourusername/organic-pattern-generator.git
-cd organic-pattern-generator
+git clone https://github.com/gddickinson/organic-growth-patterns.git
+cd organic-growth-patterns
 ```
 
 ## Usage
@@ -173,7 +177,7 @@ Please feel free to submit issues and pull requests.
 Planned features and improvements:
 
 1. More pattern types (algae, fungal, etc.)
-2. 3D pattern generation
+2. Rendered 3D surfaces (the 3D generator currently draws scatter plots)
 3. Interactive pattern evolution
 4. Pattern combination effects
 5. Time-lapse animation generation

@@ -1,0 +1,8 @@
+# generated pattern images from the demos (README images live in docs/img/)
+/*.png
+/*.gif
+__pycache__/
+.pytest_cache/
+.DS_Store
+# static site build
+site/
