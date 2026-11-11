@@ -86,9 +86,12 @@ class OrganicPattern3D(OrganicPatternBase):
                            f"Available: {list(self.patterns.keys())}")
 
         pattern = self.patterns[pattern_type]
+        # The registry kernels are normalised (weights sum to 1), but the survive/birth ranges are neighbour
+        # counts, so count with the kernel's support (1 per neighbour) rather than averaging.
+        count_kernel = (pattern['kernel'] > 0).astype(float)
 
         for _ in range(generations):
-            neighbors = convolve(self.grid, pattern['kernel'], mode='wrap')
+            neighbors = convolve(self.grid.astype(float), count_kernel, mode='wrap')
 
             next_grid = np.zeros_like(self.grid)
 

@@ -145,6 +145,23 @@ class TestOrganicPattern3D:
         assert isinstance(count, int)
         assert len(gen.history) == 3  # initial + 2 generations
 
+    def test_neighbours_are_counted_not_averaged(self):
+        """Regression: the normalised 3D kernels turned neighbour counts into fractions (<= 1), so the integer
+        survive/birth ranges (4-7 etc.) were never met and every 3D pattern died after one generation."""
+        gen = OrganicPattern3D(10, 10, 10)
+        gen.grid = np.zeros((10, 10, 10))
+        for dz, dy, dx in [(-1, 0, 0), (1, 0, 0), (0, -1, 0), (0, 1, 0), (0, 0, -1)]:
+            gen.grid[5 + dz, 5 + dy, 5 + dx] = 1
+        gen.history = [gen.grid.copy()]
+        gen.grow('crystal')  # cube kernel: birth with 5-6 neighbours
+        assert gen.grid[5, 5, 5] == 1
+
+    def test_center_seed_survives_where_rules_allow(self):
+        for pattern in ('crystal', 'mycelium'):
+            gen = OrganicPattern3D(30, 30, 30)
+            gen.seed_center(radius=3)
+            assert gen.grow(pattern, generations=3) > 0, pattern
+
     def test_grow_unknown_pattern_raises(self):
         gen = OrganicPattern3D(10, 10, 10)
         gen.seed_random()
