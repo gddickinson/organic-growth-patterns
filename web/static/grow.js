@@ -72,10 +72,7 @@ route('grow', async (args, q) => {
       ['solid (= 1)', countSolid(gen.grid)], ['cells', gen.grid.length], ['min', lo.toFixed(3)], ['max', hi.toFixed(3)]]);
     sparkline($('#g-spark'), counts, getComputedStyle(document.documentElement).getPropertyValue('--accent').trim());
     $('#g-code').innerHTML = codeBlock(pythonCode(runSpec(), 2));
-    $('#g-note').innerHTML = s.pattern === 'mycelium'
-      ? `Mycelium adds noise of up to 0.1 to <em>every</em> cell after each step (as <code>grow()</code> is written), so all
-         cells count as active (&gt; 0); "solid" counts the cells at 1. Colour map <code>${esc(P[s.pattern].color_map)}</code>.`
-      : `Colour map <code>${esc(P[s.pattern].color_map)}</code>, shown as <code>visualize()</code> does: the grid × 1.5,
+    $('#g-note').innerHTML = `Colour map <code>${esc(P[s.pattern].color_map)}</code>, shown as <code>visualize()</code> does: the grid × 1.5,
          clipped to 1 and scaled to its own range.`;
   }
 

@@ -65,8 +65,11 @@ export class Generator2D {
       const n = nb[i];
       if ((g[i] > 0 && n >= sl && n <= sh) || (g[i] === 0 && n >= bl && n <= bh)) next[i] = 1;
     }
-    if (patternType === 'mycelium') {      // "Add noise for organic appearance": np.random.random(shape) * 0.1
-      for (let i = 0; i < next.length; i++) next[i] = Math.min(1, Math.max(0, next[i] + this.rs.random() * 0.1));
+    if (patternType === 'mycelium') {      // noise for organic appearance, live cells only (one draw per cell, as numpy)
+      for (let i = 0; i < next.length; i++) {
+        const r = this.rs.random() * 0.1;
+        if (next[i] > 0) next[i] = Math.min(1, Math.max(0, next[i] + r));
+      }
     }
     this.grid = next;
     return countActive(next);

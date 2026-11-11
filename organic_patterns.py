@@ -105,10 +105,12 @@ class OrganicPatternGenerator(OrganicPatternBase):
 
         next_grid[survival_mask | birth_mask] = 1.0
 
-        # Add noise for organic appearance
+        # Add noise for organic appearance, to live cells only: noise on empty cells would make every cell > 0,
+        # so nothing could ever be born again and the whole grid would count as active.
         if pattern_type == 'mycelium':
             noise = np.random.random(next_grid.shape) * 0.1
-            next_grid = np.clip(next_grid + noise, 0, 1)
+            alive = next_grid > 0
+            next_grid[alive] = np.clip(next_grid[alive] + noise[alive], 0, 1)
 
         # Update grid
         self.grid = next_grid

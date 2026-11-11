@@ -100,6 +100,17 @@ class TestOrganicPatternGenerator2D:
             count = gen.grow(ptype)
             assert count >= 0
 
+    def test_mycelium_grows_from_seed(self):
+        """Regression: noise was added to every cell, so after one step all cells were > 0, the active count was the
+        whole grid and no cell could be born again. Noise now goes only to live cells."""
+        np.random.seed(1)
+        gen = OrganicPatternGenerator(100, 100)
+        gen.seed_center(radius=15)
+        start = int(np.sum(gen.grid > 0))
+        counts = [gen.grow('mycelium') for _ in range(20)]
+        assert np.sum(gen.grid == 0) > 0          # empty cells stay empty
+        assert counts[-1] > start and counts[-1] < gen.grid.size
+
     def test_environment_moisture(self):
         gen = OrganicPatternGenerator(50, 50)
         gen.seed_random(density=0.5)

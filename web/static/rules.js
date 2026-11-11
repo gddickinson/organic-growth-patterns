@@ -28,8 +28,8 @@ route('rules', async () => {
       <td>${kern2(p.kernel)}</td><td class="mono">${p.survive_range.join('–')}</td><td class="mono">${p.birth_range.join('–')}</td>
       <td><code>${esc(p.color_map)}</code><div class="ramp" style="background:${rampCSS(cmaps['2d'][p.color_map])}"></div></td></tr>`)}
     </tbody></table></div>
-  <p class="small mute">The orange square is the cell itself (weight 0). Mycelium also adds uniform noise in [0, 0.1) to every
-  cell after each step, as <code>grow()</code> is written.</p>
+  <p class="small mute">The orange square is the cell itself (weight 0). Mycelium also adds uniform noise in [0, 0.1) to its live cells after
+  each step (clipped to 1).</p>
   <h2>3D (<code>PATTERN_REGISTRY_3D</code>)</h2>
   <div class="scroll"><table>
     <thead><tr><th>Pattern</th><th>Kernel (z = 0, 1, 2)</th><th>Survive</th><th>Birth</th><th>Colours</th></tr></thead>
